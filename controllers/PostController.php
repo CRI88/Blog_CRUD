@@ -1,15 +1,13 @@
 <?php
+include('../models/PostModel.php');
 
-namespace controllers;
+class PostController {
 
-use models\Post;
+    public function index() {
+        $postModel = new PostModel();
 
-class PostController
-{
-    private $postModel;
-    public function __construct(Post $post)
-    {
-        $this->postModel = $post;
+        $posts = $postModel->getAllPosts();
+
+        include('../views/home/index.php');
     }
-    // Métodos para manejar acciones de publicaciones
 }

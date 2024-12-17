@@ -1,10 +1,7 @@
 <?php
+include('controllers/PostController.php');
 
-use models\User;
+$postController = new PostController();
 
-$instanciaUsuarios = new User();
-
-$listaUsuarios = $instanciaUsuarios->getAllUsers();
-
-var_dump($listaUsuarios);
-
+$postController->index();
+?>
