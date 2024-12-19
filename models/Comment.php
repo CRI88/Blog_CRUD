@@ -1,7 +1,7 @@
 <?php
 
 //require_once ('../config/Database.php');
-class UserRoles
+class Comment
 {
     private $conn;
     private $table_name = 'posts';
@@ -37,3 +37,4 @@ class UserRoles
         // Implementa la lógica para eliminar un post
     }
 }
+

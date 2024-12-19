@@ -1,9 +1,14 @@
 <?php
 require_once('../../config/Database.php');
-require_once('../../models/PostModel.php');
-require_once('../../models/CommentModel.php');
+require_once('../../models/Post.php');
+require_once('../../controllers/PostController.php');
 
-$resultado = selectAllPosts();
+$db = (new Database()) ->getConnection();
+$post = new Post($db);
+$postController = new PostController();
+
+$resultado = $postController->index();
+
 ?>
 
 <!DOCTYPE html>
@@ -31,7 +36,7 @@ $resultado = selectAllPosts();
                     <div class="bg-white border rounded-lg shadow-lg p-6">
                         <h2 class="text-2xl font-bold text-gray-800 mb-2"><?php echo htmlspecialchars($post['title']); ?></h2>
                         <p class="text-gray-600 mb-4"><?php echo htmlspecialchars($post['description']); ?></p>
-                        <p class="text-sm text-gray-500">Publicado por Usuario ID: <span class="font-semibold"><?php echo htmlspecialchars($post['idUser']); ?></span></p>
+                        <p class="text-sm text-gray-500">Publicado por Usuario: <span class="font-semibold"><?php echo htmlspecialchars($post['userName']); ?></span></p>
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>

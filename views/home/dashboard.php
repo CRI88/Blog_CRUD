@@ -2,8 +2,8 @@
     require_once('../../config/Database.php');
     require_once('../../models/User.php');
     
-
-    $usuarios = selectUsers();
+    $db = (new Database())->getConnection();
+    //$usuarios = selectUsers();
 ?>
 
 <!DOCTYPE html>

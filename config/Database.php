@@ -1,27 +1,25 @@
 <?php
 
-    function openBd() {
-
-        $servername = '172.17.131.35';
-        $db_name = 'blog_db';
-        $username = 'Toni';
-        $password = '1234';
-
-        $conexion = new PDO("mysql:host=" . $servername . ";dbname=" . $db_name, $username, $password);
-
-        $conexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        $conexion->exec("set names utf8");
-
-        return $conexion;
-
+class Database {
+    private $host = '172.17.131.35';
+    private $db_name = 'blog_db';
+    private $username = 'Toni';
+    private $password = '1234';
+    public $conn;
+    public function getConnection() {
+    $this->conn = null;
+    try {
+    $this->conn = new PDO('mysql:host=' . $this->host . ';dbname=' . $this->db_name, 
+   $this->username, $this->password);
+    $this->conn->exec('set names utf8');
+    } catch(PDOException $exception) {
+    echo 'Error de conexión: ' . $exception->getMessage();
     }
-
-    function closeBd() {
-        return null;
+    return $this->conn;
     }
+   }
 
-    function errorMessage($e) {
+   function errorMessage($e) {
 
         //errorInfo es un array
         //Si la posicion 1 no esta vacia hace el if
@@ -60,6 +58,32 @@
 
         return $mensaje;
     }
+
+
+
+/*
+    function openBd() {
+
+        $servername = '172.17.131.35';
+        $db_name = 'blog_db';
+        $username = 'Toni';
+        $password = '1234';
+
+        $conexion = new PDO("mysql:host=" . $servername . ";dbname=" . $db_name, $username, $password);
+
+        $conexion -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $conexion->exec("set names utf8");
+
+        return $conexion;
+
+    }
+
+    function closeBd() {
+        return null;
+    }
+
+    }*/
 
 
     /*private $host = 'localhost';

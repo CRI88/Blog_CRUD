@@ -1,56 +1,42 @@
 <?php
 
-session_start();
-
-require_once('../../config/Database.php');
-
-
-function selectUsers(){
-    $conexion = openBd();
-
-    $sentenciaText = "SELECT * from Users";
-
-    $sentencia = $conexion->prepare($sentenciaText);
-    $sentencia->execute();
-
-    //Devuelve un array
-    $resultado = $sentencia->fetchAll();
-
-
-    $conexion = closeBd();
-
-    return $resultado;
-}
-
-function insertUser($userName, $name, $surname, $email, $password, $idRole) {
-
-    try
+//require_once ('../config/Database.php');
+class User
+{
+    private $conn;
+    private $table_name = 'posts';
+    public $idPost;
+    public $idUser;
+    public $title;
+    public $description;
+    public function __construct($db)
     {
-
-        $conexion = openBd();
-
-        $sentenciaText = "INSERT INTO Users (userName, name, surname, email, password, idRole) VALUES (:userName, :name, :surname, :email, :password, :idRole)";
-
-        $sentencia = $conexion->prepare($sentenciaText);
-        $sentencia->bindParam(':userName', $userName);
-        $sentencia->bindParam(':name', $name);
-        $sentencia->bindParam(':email', $email);
-        $sentencia->bindParam(':password', $password);
-        $sentencia->bindParam(':idRole', $idRole);
-
-        $sentencia->execute();
-
-        $_SESSION['mensaje'] = "Registro insertado correctamente";
-       
-
-    } catch (PDOException $e){
-        $_SESSION['error'] = errorMessage($e);
-
+        $this->conn = $db;
     }
-
-    //Cerramos la conexion fuera del try catch, porque asi siempre se cerrara la conexión, haya ido bien o mal
-    $conexion = closeBd();
-
-    
-
+    // Leer todos los posts
+    public function read()
+    {
+        $query = 'SELECT * FROM ' . $this->table_name . ' ORDER BY idUser DESC';
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt;
+    }
+    // Crear un nuevo post
+    public function create($title, $content, $author_id)
+    {
+        // Implementa la lógica para insertar un post
+    }
+    // Actualizar un post existente
+    public function update($id, $title, $content, $author_id)
+    {
+        // Implementa la lógica para actualizar un post
+    }
+    // Eliminar un post
+    public function delete($id)
+    {
+        // Implementa la lógica para eliminar un post
+    }
 }
+
+
+
