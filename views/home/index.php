@@ -8,6 +8,8 @@ $post = new Post($db);
 $postController = new PostController();
 
 $resultado = $postController->index();
+//var_dump($resultado);
+
 
 ?>
 
@@ -33,11 +35,20 @@ $resultado = $postController->index();
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <?php if (!empty($resultado)): ?>
                 <?php foreach ($resultado as $post): ?>
-                    <div class="bg-white border rounded-lg shadow-lg p-6">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-2"><?php echo htmlspecialchars($post['title']); ?></h2>
-                        <p class="text-gray-600 mb-4"><?php echo htmlspecialchars($post['description']); ?></p>
-                        <p class="text-sm text-gray-500">Publicado por Usuario: <span class="font-semibold"><?php echo htmlspecialchars($post['userName']); ?></span></p>
-                    </div>
+                    <a href="postDescription.php?idPost=<?php echo $post['idPost']?>">
+                        <div class="bg-white border rounded-lg shadow-lg p-6">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-2"><?php echo htmlspecialchars($post['title']); ?></h2>
+                            <p class="text-gray-600 mb-4"><?php echo htmlspecialchars($post['description']); ?></p>
+                            <p class="text-sm text-gray-500">Publicado por Usuario: <span class="font-semibold"><?php echo htmlspecialchars($post['userName']); ?></span></p>
+                            <a href="updateView.php" class="bg-yellow-500 text-black font-bold py-2 px-4 rounded hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50">
+                                Editar
+                            </a>
+                            <a href="deleteView.php?idPostDeleting=<?php echo $post['idPost'] ?>" class="bg-blue-500 text-black font-bold py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">
+                                Eliminar
+                            </a>
+                        </div>
+                    </a>
+                    
                 <?php endforeach; ?>
             <?php else: ?>
                 <p class="text-center text-lg text-gray-500">No hay publicaciones disponibles.</p>
