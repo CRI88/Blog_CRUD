@@ -1,42 +1,154 @@
 <?php
 
-//require_once ('../config/Database.php');
-class User
-{
+class User extends Database {
+
     private $conn;
-    private $table_name = 'posts';
-    public $idPost;
-    public $idUser;
-    public $title;
-    public $description;
-    public function __construct($db)
-    {
+    private $idUser;
+    private $userName;
+    private $name;
+    private $surname;
+    private $email;
+    private $password;
+    private $idRole;
+
+    public function __construct($db) {
+
         $this->conn = $db;
+
     }
-    // Leer todos los posts
-    public function read()
+
+
+
+
+
+
+    public function selectUserId($user, $idUser)
     {
-        $query = 'SELECT * FROM ' . $this->table_name . ' ORDER BY idUser DESC';
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt;
+
+        $sentenciaText = "SELECT idUser, userName, name, surname, email, password, idRole FROM Users WHERE idUser = :idUser";
+
+        $sentencia = $user->conn->prepare($sentenciaText);
+
+        $sentencia->bindParam(':idUser', $idUser);
+        $sentencia->execute();
+
+        //Devuelve un Objeto User
+        $resultado = $sentencia->fetchObject(User::class);
+
+
+        return $resultado;
     }
-    // Crear un nuevo post
-    public function create($title, $content, $author_id)
+
+    public function selectAllUsers($user)
     {
-        // Implementa la lógica para insertar un post
+        $sentenciaText = "SELECT idUser, userName, name, surname, email, password, idRole FROM Users";
+
+        $sentencia = $user->conn->prepare($sentenciaText);
+        $sentencia->execute();
+
+        //Devuelve un array asociativo
+        $resultado = $sentencia->fetchAll();
+
+
+        return $resultado;
     }
-    // Actualizar un post existente
-    public function update($id, $title, $content, $author_id)
+
+    public function insertUser($user)
     {
-        // Implementa la lógica para actualizar un post
+
+        try {
+
+            $sentenciaText = "INSERT INTO Users (userName, name, surname, email, password, idRole) VALUES (:userName, :name, :surname, :email, :password, :idRole)";
+
+            $sentencia = $user->conn->prepare($sentenciaText);
+            $sentencia->bindParam(':userName', $user->userName);
+            $sentencia->bindParam(':name', $user->name);
+            $sentencia->bindParam(':surname', $user->surname);
+            $sentencia->bindParam(':email', $user->email);
+            $sentencia->bindParam(':password', $user->password);
+            $sentencia->bindParam(':idRole', $user->idRole);
+
+            $sentencia->execute();
+
+            $_SESSION['mensaje'] = "Registro insertado correctamente";
+
+
+        } catch (PDOException $e) {
+            $_SESSION['error'] = errorMessage($e);
+
+        }
+
     }
-    // Eliminar un post
-    public function delete($id)
+
+    public function updateUser($user)
     {
-        // Implementa la lógica para eliminar un post
+
+        try {
+
+            $sentenciaText = "UPDATE Users SET name = :newName, surname = :newSurname, email = :newEmail, idRole = :newIdRole WHERE idUser = :idUser";
+
+            $sentencia = $user->conn->prepare($sentenciaText);
+            $sentencia->bindParam(':newName', $user->name);
+            $sentencia->bindParam(':newSurname', $user->surname);
+            $sentencia->bindParam(':newEmail', $user->email);
+            $sentencia->bindParam(':newIdRole', $user->idRole);
+            $sentencia->bindParam(':idUser', $user->idUser);
+
+            $sentencia->execute();
+
+            $_SESSION['mensaje'] = "Registro actualizado correctamente";
+
+
+        } catch (PDOException $e) {
+            $_SESSION['error'] = errorMessage($e);
+
+        }
+
+    }
+
+    public function updateUserPassword($user)
+    {
+
+        try {
+
+            $sentenciaText = "UPDATE Users SET password = :newPassword WHERE idUser = :idUser";
+
+            $sentencia = $user->conn->prepare($sentenciaText);
+            $sentencia->bindParam(':newPassword', $user->password);
+            $sentencia->bindParam(':idUser', $user->idUser);
+
+            $sentencia->execute();
+
+            $_SESSION['mensaje'] = "Contraseña actualizada correctamente";
+
+
+        } catch (PDOException $e) {
+            $_SESSION['error'] = errorMessage($e);
+
+        }
+
+    }
+
+    public function deleteUser($user)
+    {
+
+        try {
+
+            $sentenciaText = "DELETE FROM Users WHERE idUser = :idUser";
+
+            $sentencia = $user->conn->prepare($sentenciaText);
+            $sentencia->bindParam(':idUser', $user->idUser);
+
+            $sentencia->execute();
+
+            $_SESSION['mensaje'] = "Usuario eliminado correctamente";
+
+
+        } catch (PDOException $e) {
+            $_SESSION['error'] = errorMessage($e);
+
+        }
+
     }
 }
-
-
 

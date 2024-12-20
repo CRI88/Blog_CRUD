@@ -1,40 +1,130 @@
 <?php
 
-//require_once ('../config/Database.php');
-class Comment
+class Comment extends Database
 {
     private $conn;
-    private $table_name = 'posts';
-    public $idPost;
-    public $idUser;
-    public $title;
-    public $description;
+    private $idComment;
+    private $idUser;
+    private $idPost;
+    private $description;
+
     public function __construct($db)
     {
         $this->conn = $db;
     }
-    // Leer todos los posts
-    public function read()
+
+    function selectAllCommentsFromPost($idPost)
     {
-        $query = 'SELECT * FROM ' . $this->table_name . ' ORDER BY idUser DESC';
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt;
+
+        try {
+
+            $sentenciaText = "SELECT u.userName, c.description FROM Comments c INNER JOIN Users u ON c.idUser = u.idUser WHERE c.idPost = :idPost";
+
+            $sentencia = $this->conn->prepare($sentenciaText);
+            $sentencia->bindParam(':idPost', $idPost);
+
+            $sentencia->execute();
+
+            //Devuelve un array
+            $resultado = $sentencia->fetchAll();
+
+        } catch (PDOException $e) {
+            $_SESSION['error'] = errorMessage($e);
+
+        }
+
+        return $resultado;
     }
-    // Crear un nuevo post
-    public function create($title, $content, $author_id)
+
+    function selectCommentId($idComment)
     {
-        // Implementa la lógica para insertar un post
+
+        try {
+            
+            $sentenciaText = "SELECT idComment, description FROM Comments WHERE idComment = :idComment";
+
+            $sentencia = $this->conn->prepare($sentenciaText);
+            $sentencia->bindParam(':idComment', $idComment);
+
+            $sentencia->execute();
+
+            //Devuelve un array
+            $resultado = $sentencia->fetchAll();
+
+        } catch (PDOException $e) {
+            $_SESSION['error'] = errorMessage($e);
+
+        }
+
+        return $resultado[0];
+
     }
-    // Actualizar un post existente
-    public function update($id, $title, $content, $author_id)
+
+    function insertComment($idUser, $idPost, $description)
     {
-        // Implementa la lógica para actualizar un post
+        try {
+
+            $sentenciaText = "INSERT INTO Comments (idUser, idPost, description) VALUES (:idUser, :idPost, :description)";
+
+            $sentencia = $this->conn->prepare($sentenciaText);
+            $sentencia->bindParam(':idUser', $idUser);
+            $sentencia->bindParam(':idPost', $idPost);
+            $sentencia->bindParam(':description', $description);
+
+            $sentencia->execute();
+
+            $_SESSION['mensaje'] = "Comentario publicado correctamente";
+
+
+        } catch (PDOException $e) {
+            $_SESSION['error'] = errorMessage($e);
+
+        }
     }
-    // Eliminar un post
-    public function delete($id)
+
+    function updateComment($idComment, $description)
     {
-        // Implementa la lógica para eliminar un post
+        try {
+
+            $sentenciaText = "UPDATE Comments SET description = :description WHERE idComment = :idComment";
+
+            $sentencia = $this->conn->prepare($sentenciaText);
+            $sentencia->bindParam(':description', $description);
+            $sentencia->bindParam(':idComment', $idComment);
+
+
+            $sentencia->execute();
+
+            $_SESSION['mensaje'] = "Comentario actualizado correctamente";
+
+
+        } catch (PDOException $e) {
+            $_SESSION['error'] = errorMessage($e);
+
+        }
+
+    }
+
+    function deleteComment($idComment)
+    {
+
+        try {
+            $sentenciaText = "DELETE FROM Comments WHERE idComment = :idComment";
+
+            $sentencia = $this->conn->prepare($sentenciaText);
+            $sentencia->bindParam(':idComment', $idComment);
+
+            $sentencia->execute();
+
+            $_SESSION['mensaje'] = "Comentario eliminado correctamente";
+
+
+        } catch (PDOException $e) {
+            $_SESSION['error'] = errorMessage($e);
+
+        }
+
+
     }
 }
 
