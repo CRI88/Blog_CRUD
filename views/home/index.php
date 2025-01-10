@@ -20,7 +20,9 @@ $resultado = $postController->index();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Publicaciones - Blog</title>
-    <link href="../../output.css" rel="stylesheet">
+    <link href="../../public/output.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-gray-100">

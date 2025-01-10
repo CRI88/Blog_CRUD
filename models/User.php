@@ -2,7 +2,7 @@
 
 class User extends Database {
 
-    private $conn;
+    public $conn;
     private $idUser;
     private $userName;
     private $name;
@@ -16,11 +16,6 @@ class User extends Database {
         $this->conn = $db;
 
     }
-
-
-
-
-
 
     public function selectUserId($user, $idUser)
     {
@@ -51,6 +46,38 @@ class User extends Database {
 
 
         return $resultado;
+    }
+
+    public function selectUserWithName($userName)
+    {
+
+        $sentenciaText = "SELECT idUser, userName, name, surname, email, password, idRole FROM Users WHERE userName = :userName";
+
+        $sentencia = $this->conn->prepare($sentenciaText);
+
+        $sentencia->bindParam(':userName', $userName);
+        $sentencia->execute();
+
+        // Devuelve un array asociativo
+        $resultado = $sentencia->fetch(PDO::FETCH_ASSOC);
+
+        if ($resultado) {
+            // Crea una nueva instancia de User y llena los datos usando los setters
+            $userResponse = new User($this->conn);
+            $userResponse->setIdUser($resultado['idUser']);
+            $userResponse->setUserName($resultado['userName']);
+            $userResponse->setName($resultado['name']);
+            $userResponse->setSurname($resultado['surname']);
+            $userResponse->setEmail($resultado['email']);
+            $userResponse->setPassword($resultado['password']);
+            $userResponse->setIdRole($resultado['idRole']);
+
+            return $userResponse;
+        }
+
+        // Si no se encontró el usuario, devuelve null
+        return null;
+
     }
 
     public function insertUser($user)
@@ -149,6 +176,146 @@ class User extends Database {
 
         }
 
+    }
+
+    /**
+     * Get the value of idUser
+     */
+    public function getIdUser()
+    {
+        return $this->idUser;
+    }
+
+    /**
+     * Set the value of idUser
+     *
+     * @return  self
+     */
+    public function setIdUser($idUser)
+    {
+        $this->idUser = $idUser;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of userName
+     */
+    public function getUserName()
+    {
+        return $this->userName;
+    }
+
+    /**
+     * Set the value of userName
+     *
+     * @return  self
+     */
+    public function setUserName($userName)
+    {
+        $this->userName = $userName;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of name
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set the value of name
+     *
+     * @return  self
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of surname
+     */
+    public function getSurname()
+    {
+        return $this->surname;
+    }
+
+    /**
+     * Set the value of surname
+     *
+     * @return  self
+     */
+    public function setSurname($surname)
+    {
+        $this->surname = $surname;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of email
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set the value of email
+     *
+     * @return  self
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of password
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * Set the value of password
+     *
+     * @return  self
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of idRole
+     */
+    public function getIdRole()
+    {
+        return $this->idRole;
+    }
+
+    /**
+     * Set the value of idRole
+     *
+     * @return  self
+     */
+    public function setIdRole($idRole)
+    {
+        $this->idRole = $idRole;
+
+        return $this;
     }
 }
 

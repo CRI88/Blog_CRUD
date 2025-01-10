@@ -3,7 +3,7 @@
     require_once('../../models/User.php');
     
     $db = (new Database())->getConnection();
-    //$usuarios = selectUsers();
+    $usuarios = selectAllUsers($user);
 ?>
 
 <!DOCTYPE html>

@@ -12,7 +12,7 @@ $postController = new PostController();
 
 $resultado = $post->readFromId($idPost);
 
-var_dump($resultado);
+//var_dump($resultado);
 
 //$listaComentarios = 
 
