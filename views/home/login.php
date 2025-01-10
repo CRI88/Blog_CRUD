@@ -24,14 +24,14 @@
                 <label for="textViewNombreUsuario"
                     class="block text-sm font-medium text-gray-700 text-center w-full">Nombre de usuario</label>
                 <input type="text" id="textViewNombreUsuario" name="nombreUsuario"
-                    class="mt-1 block w-full max-w-xs px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-red-500 focus:border-red-500">
+                    class="mt-1 block w-full max-w-xs px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-red-500 focus:border-red-500" required>
             </div>
 
             <div class="flex flex-col items-center mb-4">
                 <label for="textViewContrasenya"
                     class="block text-sm font-medium text-gray-700 text-center w-full">Contraseña</label>
                 <input type="password" id="textViewContrasenya" name="contrasenya"
-                    class="mt-1 block w-full max-w-xs px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-red-500 focus:border-red-500">
+                    class="mt-1 block w-full max-w-xs px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-red-500 focus:border-red-500" required>
             </div>
 
             <div class="text-center">

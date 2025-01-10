@@ -1,15 +1,16 @@
 <?php
+session_start();
+$idUser = $_SESSION['idUser'];
+
 require_once('../../config/Database.php');
 require_once('../../models/Post.php');
 require_once('../../controllers/PostController.php');
 
-$db = (new Database()) ->getConnection();
+$db = (new Database())->getConnection();
 $post = new Post($db);
 $postController = new PostController();
 
 $resultado = $postController->index();
-//var_dump($resultado);
-
 
 ?>
 
@@ -22,7 +23,6 @@ $resultado = $postController->index();
     <title>Publicaciones - Blog</title>
     <link href="../../public/output.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
 <body class="bg-gray-100">
@@ -37,25 +37,46 @@ $resultado = $postController->index();
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <?php if (!empty($resultado)): ?>
                 <?php foreach ($resultado as $post): ?>
-                    <a href="postDescription.php?idPost=<?php echo $post['idPost']?>">
-                        <div class="bg-white border rounded-lg shadow-lg p-6">
-                            <h2 class="text-2xl font-bold text-gray-800 mb-2"><?php echo htmlspecialchars($post['title']); ?></h2>
-                            <p class="text-gray-600 mb-4"><?php echo htmlspecialchars($post['description']); ?></p>
-                            <p class="text-sm text-gray-500">Publicado por Usuario: <span class="font-semibold"><?php echo htmlspecialchars($post['userName']); ?></span></p>
-                            <a href="updateView.php" class="bg-yellow-500 text-black font-bold py-2 px-4 rounded hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50">
-                                Editar
-                            </a>
-                            <a href="deleteView.php?idPostDeleting=<?php echo $post['idPost'] ?>" class="bg-blue-500 text-black font-bold py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">
-                                Eliminar
-                            </a>
-                        </div>
-                    </a>
-                    
+                    <div class="bg-white border rounded-lg shadow-lg p-6">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2"><?php echo htmlspecialchars($post['title']); ?></h2>
+                        <p class="text-gray-600 mb-4"><?php echo htmlspecialchars($post['description']); ?></p>
+                        <p class="text-sm text-gray-500">Publicado por Usuario: <span
+                                class="font-semibold"><?php echo htmlspecialchars($post['userName']); ?></span></p>
+
+                        <br>
+
+
+                        <a href="postDescription.php?idPost=<?php echo $post['idPost'] ?>"
+                            class="bg-green-500 text-black font-bold py-2 px-4 mr-2 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50">
+                            Ver
+                        </a>
+
+                        <a href="updateView.php"
+                            class="bg-yellow-500 text-black font-bold py-2 px-4 mr-2 rounded hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50">
+                            Editar
+                        </a>
+
+                        <a href="deleteView.php?idPostDeleting=<?php echo $post['idPost'] ?>"
+                            class="bg-red-500 text-black font-bold py-2 px-4 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">
+                            Eliminar
+                        </a>
+
+                    </div>
                 <?php endforeach; ?>
             <?php else: ?>
                 <p class="text-center text-lg text-gray-500">No hay publicaciones disponibles.</p>
             <?php endif; ?>
         </div>
+
+        <div class="fixed bottom-4 right-4">
+            <a href="../../public/index.php">
+                <button
+                    class="bg-blue-500 text-white p-4 rounded-full shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 text-2xl">
+                    💬
+                </button>
+            </a>
+        </div>
+
     </div>
 
     <!-- Footer -->
@@ -64,4 +85,5 @@ $resultado = $postController->index();
     </footer>
 
 </body>
+
 </html>

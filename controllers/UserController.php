@@ -51,15 +51,15 @@ if (isset($_POST['insert'])) {
         switch ($userResponse->getIdRole()) {
             case 1:
                 $_SESSION['idUser'] = $userResponse->getIdUser();
-                header('Location: ../public/index.php');
+                header('Location: ../views/home/index.php');
                 break;
             case 2:
                 $_SESSION['idUser'] = $userResponse->getIdUser();
-                header('Location: ../public/index.php');
+                header('Location: ../views/home/index.php');
                 break;
             case 3:
                 $_SESSION['idUser'] = $userResponse->getIdUser();
-                header('Location: ../public/index.php');
+                header('Location: ../views/home/index.php');
                 break;
         }
 
