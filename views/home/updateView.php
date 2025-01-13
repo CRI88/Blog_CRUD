@@ -40,9 +40,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     <form action="" method="POST">
         <input type="hidden" name="action" value="update">
 
-        <label for="idPost">ID del Post:</label>
-        <input type="number" id="idPost" name="idPost" required>
-
         <label for="title">Nuevo Título:</label>
         <input type="text" id="title" name="title" required>
 

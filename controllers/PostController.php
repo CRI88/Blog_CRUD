@@ -64,7 +64,7 @@ public function updateView()
             $title = $_POST['title'] ?? '';
             $description = $_POST['description'] ?? '';
 
-            if (empty($idPost) || empty($title) || empty($description)) {
+            if (empty($title) || empty($description)) {
                 $_SESSION['error'] = "Todos los campos son obligatorios.";
                 return;
             }

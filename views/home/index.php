@@ -25,19 +25,27 @@ $resultado = $postController->index();
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-gray-100" style="background-image: url('../../public/img/fondo_blog.png');">
 
     <!-- Header -->
-    <header class="bg-blue-600 text-white py-6">
-        <h1 class="text-center text-4xl font-bold">Blog de Comida</h1>
+    <header class="bg-blue-600 text-white py-6 flex justify-between items-center px-8">
+        <h1 class="text-4xl font-bold">Blog de Comida</h1>
+
+        <form action="../../server/logout.php" method="POST">
+            <button type="submit"
+                class="bg-red-500 text-white px-4 py-2 rounded-lg shadow hover:bg-red-600 transition duration-200">
+                Cerrar Sesión
+            </button>
+        </form>
     </header>
+
 
     <!-- Main Content -->
     <div class="container mx-auto px-4 py-8">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <?php if (!empty($resultado)): ?>
                 <?php foreach ($resultado as $post): ?>
-                    <div class="bg-white border rounded-lg shadow-lg p-6">
+                    <div class="bg-blue-200 border rounded-lg shadow-lg p-6">
                         <h2 class="text-2xl font-bold text-gray-800 mb-2"><?php echo htmlspecialchars($post['title']); ?></h2>
                         <p class="text-gray-600 mb-4"><?php echo htmlspecialchars($post['description']); ?></p>
                         <p class="text-sm text-gray-500">Publicado por Usuario: <span
